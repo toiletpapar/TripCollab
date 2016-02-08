@@ -56,9 +56,9 @@ app.use(session(sessionOptions));
 
 //Reject all non-secure requests
 if (app.get('env') === 'production') {
-  console.log(req.protocol);
-  console.log(req.secure);
   app.use(function(req, res, next) {
+    console.log(req.protocol);
+    console.log(req.secure);
     if(!req.secure) {
       return res.sendStatus(400);
     }
