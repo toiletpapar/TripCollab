@@ -56,6 +56,8 @@ app.use(session(sessionOptions));
 
 //Reject all non-secure requests
 if (app.get('env') === 'production') {
+  app.enable('trust proxy');  //Trust Openshift proxy
+  
   app.use(function(req, res, next) {
     if(!req.secure) {
       return res.sendStatus(400);
