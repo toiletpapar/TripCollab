@@ -8,7 +8,6 @@ var exports = module.exports;
 /*jshint esnext: true*/
 const ITERATIONS = 10000;
 const KEYLEN = 64;
-const DIGESTFN = 'sha256';
 
 //Returns a promise which resolves in a salt that protects user passwords.
 exports.makeSalt = function() {
@@ -26,7 +25,7 @@ exports.makeSalt = function() {
 //Returns a promise which resolves in a hash of salt + password
 exports.hashPassword = function(salt, password) {
   return new Promise(function(resolve, reject) {
-    crypto.pbkdf2(password, salt, ITERATIONS, KEYLEN, DIGESTFN, function(err, hash) {
+    crypto.pbkdf2(password, salt, ITERATIONS, KEYLEN, function(err, hash) {
       if (err) {
         reject(err);
       } else {
