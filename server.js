@@ -48,21 +48,23 @@ var sessionOptions = {
   }
 };
 
-// if (app.get('env') === 'production') {
-//   sessionOptions.cookie.secure = true;
-// }
+if (app.get('env') === 'production') {
+  sessionOptions.cookie.secure = true;
+}
 
 app.use(session(sessionOptions));
 
 //Reject all non-secure requests
-// if (app.get('env') === 'production') {
-//   app.use(function(req, res, next) {
-//     if(!req.secure) {
-//       return res.sendStatus(400);
-//     }
-//     next();
-//   });
-// }
+if (app.get('env') === 'production') {
+  console.log(req.protocol);
+  console.log(req.secure);
+  app.use(function(req, res, next) {
+    if(!req.secure) {
+      return res.sendStatus(400);
+    }
+    next();
+  });
+}
 
 const PORT= process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080;
 const IP = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
