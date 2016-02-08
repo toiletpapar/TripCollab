@@ -14,8 +14,19 @@ var secret = 's3rv3r secre7'; //TODO: do something about this 'secret' :)
 var app = express();
 app.use(bodyParser.json());
 
-//TODO: Change for production
-mongoose.connect('mongodb://localhost:27017/tripcollab_local');
+//MongoDB Connection
+var connectionString;
+if (app.get('env') === 'production') {
+  connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+  process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+  process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+  process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+  process.env.OPENSHIFT_APP_NAME;
+} else {
+  connectionString = 'localhost:27017/tripcollab_local';
+}
+
+mongoose.connect('mongodb://' + connectionString);
 
 var storeOptions = {
   mongooseConnection: mongoose.connection,
