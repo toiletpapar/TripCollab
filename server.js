@@ -59,8 +59,6 @@ if (app.get('env') === 'production') {
   app.enable('trust proxy');  //Trust Openshift proxy
   
   app.use(function(req, res, next) {
-    console.log(req.protocol);
-    console.log(req.secure);
     if(!req.secure) {
       return res.sendStatus(400);
     }
