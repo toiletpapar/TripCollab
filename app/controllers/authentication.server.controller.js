@@ -9,7 +9,6 @@ var exports = module.exports;
 
 //Verify that the current session is valid.
 exports.verifySession = function(req, res, next, username) {
-  console.log(req.session.id);
   if (req.session.user && req.session.user === username) {
     next();
   } else {
@@ -39,7 +38,9 @@ exports.login = function(req, res) {
             res.sendStatus(500);
           } else {
             req.session.user = user.username; //Create the session
-            res.sendStatus(200);
+            res.status(200).json({
+              'username': req.session.user
+            });
           }
         });
       } else {
