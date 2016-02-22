@@ -26,6 +26,7 @@ exports.login = function(req, res) {
   if (user && user.username && user.password) {
     Users.getUser(user.username).then(function(systemUser) {
       if (systemUser) {
+        user.id = systemUser.id;
         return Authentication.verifyUser(systemUser, user.password);
       } else {
         return Promise.reject(Errors.errors.USER_NOT_FOUND);
@@ -39,7 +40,7 @@ exports.login = function(req, res) {
           } else {
             req.session.user = user.username; //Create the session
             res.status(200).json({
-              'username': req.session.user
+              'uid': user.id
             });
           }
         });
