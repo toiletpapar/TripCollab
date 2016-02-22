@@ -12,6 +12,7 @@
     "connect-mongo": "^0.8.2",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
+    "lodash": "^4.5.0",
     "mongodb": "^2.0.48",
     "mongoose": "^4.2.9",
     "promise": "^7.0.4"

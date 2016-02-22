@@ -74,6 +74,7 @@ console.log('Using NODE_ENV=' + app.get('env'));
 //TODO: Requre all routes without specifying each one manually
 require(path.resolve('app/routes/authentication.server.route.js'))(app);
 require(path.resolve('app/routes/users.server.route.js'))(app);
+require(path.resolve('app/routes/itinerary.server.route.js'))(app);
 
 var server = app.listen(PORT, IP, function() {
   var port = server.address().port;

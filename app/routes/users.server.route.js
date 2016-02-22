@@ -6,4 +6,6 @@ module.exports = function(app) {
 
   app.route('/api/users/:user')
   	.get(Users.getFullProfile);
+
+  app.param('queryuser', Users.getUser);
 };
