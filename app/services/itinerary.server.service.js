@@ -24,9 +24,9 @@ exports.createItinerary = function(trip, username) {
   });
 };
 
-exports.getItineraryList = function(user) {
+exports.getItineraryList = function(filter) {
   return new Promise(function(resolve, reject) {
-    Itinerary.find({ owner: user.id }).exec(function(err, itineraries) {
+    Itinerary.find(filter).exec(function(err, itineraries) {
       if (err) {
         reject(err);
       } else {

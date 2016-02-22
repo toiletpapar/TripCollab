@@ -1,5 +1,7 @@
 var _ = require('lodash'),
-    Itinerary = require('../services/itinerary.server.service.js');
+    Promise = require('promise'),
+    Itinerary = require('../services/itinerary.server.service.js'),
+    Users = require('../services/users.server.service.js');
 
 var exports = module.exports;
 
@@ -39,9 +41,26 @@ exports.createItinerary = function(req, res) {
   }
 };
 
-//Retrieve a list of itineraries belonging to user
+//Retrieve a list of itineraries
 exports.getItineraryList = function(req, res) {
-  Itinerary.getItineraryList(req.queryuser).then(function(itineraries) {
+  var username = req.query.username;
+  var pUser;
+
+  if (username) {
+    pUser = Users.getUser(username);
+  } else {
+    pUser = Promise.resolve();
+  }
+
+  pUser.then(function(user) {
+    if (user === undefined) {
+      return Itinerary.getItineraryList({});
+    } else if (user === null) {
+      return Promise.resolve([]);
+    } else {
+      return Itinerary.getItineraryList({owner: user.id});
+    }
+  }).then(function(itineraries) {
     res.status(200).json({
       'itineraries': itineraries
     });
