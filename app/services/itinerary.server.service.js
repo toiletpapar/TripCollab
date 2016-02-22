@@ -35,3 +35,15 @@ exports.getItineraryList = function(filter) {
     });
   });
 };
+
+exports.getItinerary = function(itineraryID) {
+  return new Promise(function(resolve, reject) {
+    Itinerary.findById(itineraryID).exec(function(err, itinerary) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(itinerary);
+      }
+    });
+  });
+};

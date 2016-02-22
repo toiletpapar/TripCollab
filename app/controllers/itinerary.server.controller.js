@@ -70,3 +70,19 @@ exports.getItineraryList = function(req, res) {
     res.sendStatus(500);
   });
 }
+
+exports.getItinerary = function(req, res) {
+  res.status(200).json(req.itinerary);
+}
+
+//Retrieve a single itinerary given its id
+exports.retrieveItinerary = function(req, res, next, itineraryID) {
+  Itinerary.getItinerary(itineraryID).then(function(itinerary) {
+    if (itinerary) {
+      req.itinerary = itinerary;
+      next();
+    } else {
+      return res.sendStatus(404);
+    }
+  });
+};
