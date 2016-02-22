@@ -6,8 +6,8 @@ module.exports = function(app) {
 		.post(Itinerary.createItinerary);
 
 	app.route('/api/itinerary/:user/:itinerary')
-		.get(Itinerary.getItinerary);
-		//.put(Itinerary.editItinerary)
+		.get(Itinerary.getItinerary)
+		.put(Itinerary.editItinerary);
 		//.delete(Itinerary.deleteItinerary);
 
 	app.param('itinerary', Itinerary.retrieveItinerary);

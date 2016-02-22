@@ -43,6 +43,10 @@ var itinerarySchema = new Schema({
   trip: {
     required: 'Trip is required',
     type: [activitySchema]
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 

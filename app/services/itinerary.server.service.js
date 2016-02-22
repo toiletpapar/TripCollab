@@ -47,3 +47,16 @@ exports.getItinerary = function(itineraryID) {
     });
   });
 };
+
+exports.editItinerary = function(itinerary, info) {
+  itinerary.trip = info.trip;
+  return new Promise(function(resolve, reject) {
+    itinerary.save(function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(itinerary);
+      }
+    });
+  });
+};
