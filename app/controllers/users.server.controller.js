@@ -33,6 +33,17 @@ exports.createUser = function(req, res) {
   }
 };
 
+exports.getUser = function(req, res, next, queryuser) {
+  Users.getUser(queryuser).then(function(user) {
+    req.queryuser = user;
+    next();
+  }).catch(function(err) {
+    console.log(err);
+    console.log('Unable to get user');
+    return res.sendStatus(500);
+  });
+}
+
 //stubs
 exports.getFullProfile = function(req, res) {
   res.status(200).json({

@@ -4,8 +4,8 @@ var Itinerary = require('../models/itinerary.model.js'),
 
 var exports = module.exports;
 
-exports.createItinerary = function(trip, user) {
-  return Users.getUser(user).then(function(user) {
+exports.createItinerary = function(trip, username) {
+  return Users.getUser(username).then(function(user) {
     var itinerary = {};
     itinerary.owner = user.id;
     itinerary.trip = trip;
@@ -20,6 +20,18 @@ exports.createItinerary = function(trip, user) {
           resolve(userDoc);
         }
       });
+    });
+  });
+};
+
+exports.getItineraryList = function(user) {
+  return new Promise(function(resolve, reject) {
+    Itinerary.find({ owner: user.id }).exec(function(err, itineraries) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(itineraries);
+      }
     });
   });
 };

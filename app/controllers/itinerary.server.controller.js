@@ -38,3 +38,16 @@ exports.createItinerary = function(req, res) {
     res.sendStatus(400);
   }
 };
+
+//Retrieve a list of itineraries belonging to user
+exports.getItineraryList = function(req, res) {
+  Itinerary.getItineraryList(req.queryuser).then(function(itineraries) {
+    res.status(200).json({
+      'itineraries': itineraries
+    });
+  }).catch(function(err) {
+    console.log(err);
+    console.log('Unable to get itineraries for given user');
+    res.sendStatus(500);
+  });
+}
