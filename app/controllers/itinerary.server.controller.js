@@ -99,6 +99,17 @@ exports.editItinerary = function(req, res) {
   }
 }
 
+exports.deleteItinerary = function(req, res) {
+  Itinerary.deleteItinerary(req.itinerary).then(function() {
+    res.sendStatus(200);
+  }).catch(function(err) {
+    console.log(err);
+    console.log('Unable to delete itinerary');
+
+    res.sendStatus(500);
+  });
+}
+
 //Retrieve a single itinerary given its id
 exports.retrieveItinerary = function(req, res, next, itineraryID) {
   Itinerary.getItinerary(itineraryID).then(function(itinerary) {

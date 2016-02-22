@@ -25,6 +25,8 @@ exports.createItinerary = function(trip, username) {
 };
 
 exports.getItineraryList = function(filter) {
+  filter.deleted = false;
+
   return new Promise(function(resolve, reject) {
     Itinerary.find(filter).exec(function(err, itineraries) {
       if (err) {
@@ -38,7 +40,7 @@ exports.getItineraryList = function(filter) {
 
 exports.getItinerary = function(itineraryID) {
   return new Promise(function(resolve, reject) {
-    Itinerary.findById(itineraryID).exec(function(err, itinerary) {
+    Itinerary.findById(itineraryID).and([{deleted: false}]).exec(function(err, itinerary) {
       if (err) {
         reject(err);
       } else {
@@ -59,4 +61,18 @@ exports.editItinerary = function(itinerary, info) {
       }
     });
   });
+};
+
+exports.deleteItinerary = function(itinerary) {
+  //Soft delete
+  itinerary.deleted = true;
+  return new Promise(function(resolve, reject) {
+    itinerary.save(function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(itinerary);
+      }
+    });
+  }); 
 };
