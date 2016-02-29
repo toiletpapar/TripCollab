@@ -1,0 +1,262 @@
+origin: https://tripcollab-bigbitecookies.rhcloud.com
+
+//Authentication
+Create Account:
+POST to /api/users/
+with the following JSON:
+{
+	"user": {
+		"username": string
+		"password": string
+	}	
+}
+
+Login:
+POST to /api/auth/
+with the following JSON:
+{
+	"user": {
+		"username": string
+		"password": string
+	}	
+}
+
+Logout:
+DELETE to /api/auth/:user
+:user is the username of the user to logout
+(e.g. if I want to logout of tpoon then the URL would be /api/auth/tpoon/)
+
+Note: All routes with :user are protected by authentication
+
+//Itinerary
+Retrieve all available itineraries from the DB:
+GET to /api/itinerary/:user?username=tpoon
+:user is the username of the current logged in user
+?username is the username of the owner you want to filter the itineraries by
+will respond with
+(all itineraries for a given user, a single itinerary would be one of these objects in this array)
+{
+  "itineraries": [
+    {
+      "owner": "56ca3e9f8daa44dc6736d519",
+      "_id": "56ca71a7cad2568866633a72",
+      "__v": 0,
+      "trip": [
+        {
+          "time": "1995-08-09T06:08:20.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 main street",
+            "type": "bar"
+          },
+          "_id": "56ca71a7cad2568866633a75"
+        },
+        {
+          "time": "1995-08-09T12:00:00.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 queen street",
+            "type": "club"
+          },
+          "_id": "56ca71a7cad2568866633a74"
+        },
+        {
+          "time": "1995-08-10T20:00:00.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 front street",
+            "type": "restaurant"
+          },
+          "_id": "56ca71a7cad2568866633a73"
+        }
+      ]
+    },
+    {
+      "owner": "56ca3e9f8daa44dc6736d519",
+      "_id": "56ca77f62514de4c5bbe83df",
+      "__v": 0,
+      "trip": [
+        {
+          "time": "1995-08-09T06:08:20.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 main street",
+            "type": "bar"
+          },
+          "_id": "56ca77f62514de4c5bbe83e2"
+        },
+        {
+          "time": "1995-08-09T12:00:00.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 queen street",
+            "type": "club"
+          },
+          "_id": "56ca77f62514de4c5bbe83e1"
+        },
+        {
+          "time": "1995-08-10T20:00:00.000Z",
+          "location": {
+            "name": "Ontario Science Centre",
+            "long": 123456789,
+            "lat": 123456789,
+            "address": "123 front street",
+            "type": "restaurant"
+          },
+          "_id": "56ca77f62514de4c5bbe83e0"
+        }
+      ]
+    }
+  ]
+}
+
+Create an itinerary:
+POST to /api/itinerary/:user
+:user is the username of the current logged in user
+with the following JSON:
+{
+	trip: [
+		{
+			time: "Wed, 09 Aug 1995 06:08:20 GMT",
+			location: {
+				name: "Ontario Science Centre",
+				long: 123456789,
+				lat: 123456789,
+				address: "123 main street",
+				type: "bar"
+			}
+		},
+		{
+			time: "Wed, 09 Aug 1995 12:00:00 GMT",
+			location: {
+				name: "Ontario Science Centre",
+				long: 123456789,
+				lat: 123456789,
+				address: "123 queen street",
+				type: "club"
+			}
+		},
+		{
+			time: "Wed, 10 Aug 1995 20:00:00 GMT",
+			location: {
+				name: "Ontario Science Centre",
+				long: 123456789,
+				lat: 123456789,
+				address: "123 front street",
+				type: "restaurant"
+			}
+		}
+	]
+}
+
+Get a specific itinerary:
+GET to /api/itinerary/:user/:itinerary/
+:user is the username of the current logged in user
+:itinerary is the id of the itinerary to retrieve
+will respond with
+{
+  "owner": "56ca3e9f8daa44dc6736d519",
+  "_id": "56ca71a7cad2568866633a72",
+  "__v": 0,
+  "trip": [
+    {
+      "time": "1995-08-09T06:08:20.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 main street",
+        "type": "bar"
+      },
+      "_id": "56ca71a7cad2568866633a75"
+    },
+    {
+      "time": "1995-08-09T12:00:00.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 queen street",
+        "type": "club"
+      },
+      "_id": "56ca71a7cad2568866633a74"
+    },
+    {
+      "time": "1995-08-10T20:00:00.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 front street",
+        "type": "restaurant"
+      },
+      "_id": "56ca71a7cad2568866633a73"
+    }
+  ]
+}
+
+Edit a specific itinerary:
+PUT to /api/itinerary/:user/:itinerary
+:user is the username of the current logged in user
+:itinerary is the id of the itinerary to retrieve
+with the following new itinerary JSON
+{
+  "owner": "56ca3e9f8daa44dc6736d519",
+  "_id": "56ca71a7cad2568866633a72",
+  "__v": 0,
+  "trip": [
+    {
+      "time": "1995-08-09T06:08:20.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 main street",
+        "type": "bar"
+      },
+      "_id": "56ca71a7cad2568866633a75"
+    },
+    {
+      "time": "1995-08-09T12:00:00.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 queen street",
+        "type": "club"
+      },
+      "_id": "56ca71a7cad2568866633a74"
+    },
+    {
+      "time": "1995-08-10T20:00:00.000Z",
+      "location": {
+        "name": "Ontario Science Centre",
+        "long": 123456789,
+        "lat": 123456789,
+        "address": "123 front street",
+        "type": "restaurant"
+      },
+      "_id": "56ca71a7cad2568866633a73"
+    }
+  ]
+}
+
+Note: If no itinerary exists at :itinerary then one is created.
+
+Delete a specific itinerary:
+DELETE to /api/itinerary/:user/:itinerary
+:user is the username of the current logged in user
+:itinerary is the id of the itinerary to retrieve
+
+Note: There is currently no auth check to delete itineraries that only you own.
+Note: It is a soft delete
