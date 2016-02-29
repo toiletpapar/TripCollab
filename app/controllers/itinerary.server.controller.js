@@ -6,15 +6,17 @@ var _ = require('lodash'),
 var exports = module.exports;
 
 function extractTrip(itinerary) {
+  //Take only relevant parts of itinerary
   var trip = [];
 
   for (var i = 0; i < itinerary.trip.length; i++) {
     var activity = {};
 
+    activity.day = itinerary.trip[i].day;
     activity.time = itinerary.trip[i].time;
-    activity.location = {};
 
     if (itinerary.trip[i].location) {
+      activity.location = {};
       activity.location.name = itinerary.trip[i].location.name ? itinerary.trip[i].location.name : '';
       activity.location.long = itinerary.trip[i].location.long;
       activity.location.lat = itinerary.trip[i].location.lat;
@@ -60,10 +62,13 @@ exports.getItineraryList = function(req, res) {
 
   pUser.then(function(user) {
     if (user === undefined) {
+      //No user given, return all itineraries
       return Itinerary.getItineraryList({});
     } else if (user === null) {
+      //No user found, return empty itineraries
       return Promise.resolve([]);
     } else {
+      //Return itineraries filtered by user
       return Itinerary.getItineraryList({owner: user.id});
     }
   }).then(function(itineraries) {
