@@ -30,7 +30,7 @@ function extractTrip(itinerary) {
   return trip;
 }
 
-function convertTripTimeToMilliseconds(trip) {
+function convertTripTimeToMilliseconds(itinerary) {
   _.each(itinerary.trip, function(activity) {
     activity.time = Date.parse(activity.time);
   });
