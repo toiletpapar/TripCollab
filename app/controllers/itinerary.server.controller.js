@@ -30,6 +30,12 @@ function extractTrip(itinerary) {
   return trip;
 }
 
+function convertTripTimeToMilliseconds(trip) {
+  _.each(itinerary.trip, function(activity) {
+    activity.time = Date.parse(activity.time);
+  });
+}
+
 //Create an itinerary
 exports.createItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
@@ -72,6 +78,11 @@ exports.getItineraryList = function(req, res) {
       return Itinerary.getItineraryList({owner: user.id});
     }
   }).then(function(itineraries) {
+    //Takes a ISO8601-compliant date string and converts it into milliseconds
+    _.each(itineraries, function(itinerary) {
+      convertTripTimeToMilliseconds(itinerary.trip);
+    });
+
     res.status(200).json({
       'itineraries': itineraries
     });
@@ -83,6 +94,7 @@ exports.getItineraryList = function(req, res) {
 }
 
 exports.getItinerary = function(req, res) {
+  convertTripTimeToMilliseconds(req.itinerary.trip);
   res.status(200).json({'itinerary': req.itinerary});
 }
 
