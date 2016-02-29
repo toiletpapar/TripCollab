@@ -24,6 +24,10 @@ var locationSchema = new Schema({
 });
 
 var activitySchema = new Schema({
+  day: {
+    required: "Day of activity is required",
+    type: Number
+  },
   time: {
     required: "Time of activity is required",
     type: Date
