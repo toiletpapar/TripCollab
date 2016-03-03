@@ -4,11 +4,12 @@ var Itinerary = require('../models/itinerary.model.js'),
 
 var exports = module.exports;
 
-exports.createItinerary = function(trip, username) {
+exports.createItinerary = function(itineraryInfo, username) {
   return Users.getUser(username).then(function(user) {
     var itinerary = {};
     itinerary.owner = user.id;
-    itinerary.trip = trip;
+    itinerary.trip = itineraryInfo.trip;
+    itinerary.name = itineraryInfo.name;
 
     var itineraryDoc = new Itinerary(itinerary);
 
@@ -52,6 +53,7 @@ exports.getItinerary = function(itineraryID) {
 
 exports.editItinerary = function(itinerary, info) {
   itinerary.trip = info.trip;
+  itinerary.name = info.name;
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err) {
       if (err) {
