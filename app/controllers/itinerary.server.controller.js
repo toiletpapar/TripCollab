@@ -34,10 +34,10 @@ function extractTrip(itinerary) {
 exports.createItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
-  if (itinerary && itinerary.trip && itinerary.trip.length) {
+  if (itinerary && itinerary.name && itinerary.trip && itinerary.trip.length) {
     var trip = extractTrip(itinerary);
 
-    Itinerary.createItinerary(trip, req.session.user).then(function() {
+    Itinerary.createItinerary({name: itinerary.name, trip: trip}, req.session.user).then(function() {
       res.sendStatus(201);
     }).catch(function(err) {
       console.log(err);
@@ -89,9 +89,9 @@ exports.getItinerary = function(req, res) {
 exports.editItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
-  if (itinerary && itinerary.trip && itinerary.trip.length) {
+  if (itinerary && itinerary.name && itinerary.trip && itinerary.trip.length) {
     var trip = extractTrip(itinerary);
-    Itinerary.editItinerary(req.itinerary, {trip: trip}).then(function(itinerary) {
+    Itinerary.editItinerary(req.itinerary, {name: itinerary.name, trip: trip}).then(function(itinerary) {
       res.status(200).json({'itinerary': itinerary});
     }).catch(function(err) {
       console.log(err);

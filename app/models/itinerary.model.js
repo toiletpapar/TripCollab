@@ -44,6 +44,10 @@ var itinerarySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  name: {
+    required: 'Name of itinerary is required',
+    type: String
+  },
   trip: {
     required: 'Trip is required',
     type: [activitySchema]
