@@ -37,8 +37,10 @@ exports.createItinerary = function(req, res) {
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     var trip = extractTrip(itinerary);
 
-    Itinerary.createItinerary({name: itinerary.name, trip: trip}, req.session.user).then(function() {
-      res.sendStatus(201);
+    Itinerary.createItinerary({name: itinerary.name, trip: trip}, req.session.user).then(function(itinerary) {
+      res.status(201).json({
+        "itinerary": itinerary
+      });
     }).catch(function(err) {
       console.log(err);
       console.log('Unable to create itinerary');

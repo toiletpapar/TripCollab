@@ -14,11 +14,11 @@ exports.createItinerary = function(itineraryInfo, username) {
     var itineraryDoc = new Itinerary(itinerary);
 
     return new Promise(function(resolve, reject) {
-      itineraryDoc.save(function(err, userDoc) {
+      itineraryDoc.save(function(err, itineraryDoc) {
         if (err) {
           reject(err);
         } else {
-          resolve(userDoc);
+          resolve(itineraryDoc);
         }
       });
     });
@@ -55,7 +55,7 @@ exports.editItinerary = function(itinerary, info) {
   itinerary.trip = info.trip;
   itinerary.name = info.name;
   return new Promise(function(resolve, reject) {
-    itinerary.save(function(err) {
+    itinerary.save(function(err, itinerary) {
       if (err) {
         reject(err);
       } else {
