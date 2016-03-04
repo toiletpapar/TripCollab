@@ -125,42 +125,44 @@ POST to /api/itinerary/:user
 :user is the username of the current logged in user
 with the following JSON:
 {
-  "name": "Toronto 1995",
-	trip: [
-		{
-      day: 1,
-			time: "Wed, 09 Aug 1995 06:08:20 GMT",
-			location: {
-				name: "Ontario Science Centre",
-				long: 123456789,
-				lat: 123456789,
-				address: "123 main street",
-				type: "bar"
-			}
-		},
-		{
-      day: 1,
-			time: "Wed, 09 Aug 1995 12:00:00 GMT",
-			location: {
-				name: "Ontario Science Centre",
-				long: 123456789,
-				lat: 123456789,
-				address: "123 queen street",
-				type: "club"
-			}
-		},
-		{
-      day: 2,
-			time: "Wed, 10 Aug 1995 20:00:00 GMT",
-			location: {
-				name: "Ontario Science Centre",
-				long: 123456789,
-				lat: 123456789,
-				address: "123 front street",
-				type: "restaurant"
-			}
-		}
-	]
+  "itinerary": {
+    "name": "Toronto 1995",
+    trip: [
+      {
+        day: 1,
+        time: "Wed, 09 Aug 1995 06:08:20 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 main street",
+          type: "bar"
+        }
+      },
+      {
+        day: 1,
+        time: "Wed, 09 Aug 1995 12:00:00 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 queen street",
+          type: "club"
+        }
+      },
+      {
+        day: 2,
+        time: "Wed, 10 Aug 1995 20:00:00 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 front street",
+          type: "restaurant"
+        }
+      }
+    ]
+  }
 }
 
 Get a specific itinerary:
@@ -219,42 +221,44 @@ PUT to /api/itinerary/:user/:itinerary
 :itinerary is the id of the itinerary to retrieve
 with the following new itinerary JSON
 {
-  "name": "Toronto 1995",
-  trip: [
-    {
-      day: 1,
-      time: "Wed, 09 Aug 1995 06:08:20 GMT",
-      location: {
-        name: "Ontario Science Centre",
-        long: 123456789,
-        lat: 123456789,
-        address: "123 main street",
-        type: "bar"
+  "itinerary": {
+    "name": "Toronto 1995",
+    trip: [
+      {
+        day: 1,
+        time: "Wed, 09 Aug 1995 06:08:20 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 main street",
+          type: "bar"
+        }
+      },
+      {
+        day: 1,
+        time: "Wed, 09 Aug 1995 12:00:00 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 queen street",
+          type: "club"
+        }
+      },
+      {
+        day: 2,
+        time: "Wed, 10 Aug 1995 20:00:00 GMT",
+        location: {
+          name: "Ontario Science Centre",
+          long: 123456789,
+          lat: 123456789,
+          address: "123 front street",
+          type: "restaurant"
+        }
       }
-    },
-    {
-      day: 1,
-      time: "Wed, 09 Aug 1995 12:00:00 GMT",
-      location: {
-        name: "Ontario Science Centre",
-        long: 123456789,
-        lat: 123456789,
-        address: "123 queen street",
-        type: "club"
-      }
-    },
-    {
-      day: 2,
-      time: "Wed, 10 Aug 1995 20:00:00 GMT",
-      location: {
-        name: "Ontario Science Centre",
-        long: 123456789,
-        lat: 123456789,
-        address: "123 front street",
-        type: "restaurant"
-      }
-    }
-  ]
+    ]
+  }
 }
 
 Note: If no itinerary exists at :itinerary then one is created.
