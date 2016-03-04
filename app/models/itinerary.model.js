@@ -49,7 +49,6 @@ var itinerarySchema = new Schema({
     type: String
   },
   trip: {
-    required: 'Trip is required',
     type: [activitySchema]
   },
   deleted: {

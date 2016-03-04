@@ -125,8 +125,10 @@ POST to /api/itinerary/:user
 :user is the username of the current logged in user
 with the following JSON:
 {
+  "name": "Toronto 1995",
 	trip: [
 		{
+      day: 1,
 			time: "Wed, 09 Aug 1995 06:08:20 GMT",
 			location: {
 				name: "Ontario Science Centre",
@@ -137,6 +139,7 @@ with the following JSON:
 			}
 		},
 		{
+      day: 1,
 			time: "Wed, 09 Aug 1995 12:00:00 GMT",
 			location: {
 				name: "Ontario Science Centre",
@@ -147,6 +150,7 @@ with the following JSON:
 			}
 		},
 		{
+      day: 2,
 			time: "Wed, 10 Aug 1995 20:00:00 GMT",
 			location: {
 				name: "Ontario Science Centre",
@@ -168,8 +172,10 @@ will respond with
   "owner": "56ca3e9f8daa44dc6736d519",
   "_id": "56ca71a7cad2568866633a72",
   "__v": 0,
+  "name": "Toronto 1995",
   "trip": [
     {
+      "day": 1,
       "time": "1995-08-09T06:08:20.000Z",
       "location": {
         "name": "Ontario Science Centre",
@@ -181,6 +187,7 @@ will respond with
       "_id": "56ca71a7cad2568866633a75"
     },
     {
+      "day": 1,
       "time": "1995-08-09T12:00:00.000Z",
       "location": {
         "name": "Ontario Science Centre",
@@ -192,6 +199,7 @@ will respond with
       "_id": "56ca71a7cad2568866633a74"
     },
     {
+      "day": 2,
       "time": "1995-08-10T20:00:00.000Z",
       "location": {
         "name": "Ontario Science Centre",
@@ -211,42 +219,40 @@ PUT to /api/itinerary/:user/:itinerary
 :itinerary is the id of the itinerary to retrieve
 with the following new itinerary JSON
 {
-  "owner": "56ca3e9f8daa44dc6736d519",
-  "_id": "56ca71a7cad2568866633a72",
-  "__v": 0,
-  "trip": [
+  "name": "Toronto 1995",
+  trip: [
     {
-      "time": "1995-08-09T06:08:20.000Z",
-      "location": {
-        "name": "Ontario Science Centre",
-        "long": 123456789,
-        "lat": 123456789,
-        "address": "123 main street",
-        "type": "bar"
-      },
-      "_id": "56ca71a7cad2568866633a75"
+      day: 1,
+      time: "Wed, 09 Aug 1995 06:08:20 GMT",
+      location: {
+        name: "Ontario Science Centre",
+        long: 123456789,
+        lat: 123456789,
+        address: "123 main street",
+        type: "bar"
+      }
     },
     {
-      "time": "1995-08-09T12:00:00.000Z",
-      "location": {
-        "name": "Ontario Science Centre",
-        "long": 123456789,
-        "lat": 123456789,
-        "address": "123 queen street",
-        "type": "club"
-      },
-      "_id": "56ca71a7cad2568866633a74"
+      day: 1,
+      time: "Wed, 09 Aug 1995 12:00:00 GMT",
+      location: {
+        name: "Ontario Science Centre",
+        long: 123456789,
+        lat: 123456789,
+        address: "123 queen street",
+        type: "club"
+      }
     },
     {
-      "time": "1995-08-10T20:00:00.000Z",
-      "location": {
-        "name": "Ontario Science Centre",
-        "long": 123456789,
-        "lat": 123456789,
-        "address": "123 front street",
-        "type": "restaurant"
-      },
-      "_id": "56ca71a7cad2568866633a73"
+      day: 2,
+      time: "Wed, 10 Aug 1995 20:00:00 GMT",
+      location: {
+        name: "Ontario Science Centre",
+        long: 123456789,
+        lat: 123456789,
+        address: "123 front street",
+        type: "restaurant"
+      }
     }
   ]
 }
