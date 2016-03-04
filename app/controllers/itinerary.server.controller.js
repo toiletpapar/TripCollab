@@ -34,7 +34,7 @@ function extractTrip(itinerary) {
 exports.createItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
-  if (itinerary && itinerary.name && itinerary.trip && itinerary.trip.length) {
+  if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     var trip = extractTrip(itinerary);
 
     Itinerary.createItinerary({name: itinerary.name, trip: trip}, req.session.user).then(function() {
@@ -89,7 +89,7 @@ exports.getItinerary = function(req, res) {
 exports.editItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
-  if (itinerary && itinerary.name && itinerary.trip && itinerary.trip.length) {
+  if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     var trip = extractTrip(itinerary);
     Itinerary.editItinerary(req.itinerary, {name: itinerary.name, trip: trip}).then(function(itinerary) {
       res.status(200).json({'itinerary': itinerary});
