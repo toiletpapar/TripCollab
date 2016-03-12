@@ -10,7 +10,12 @@ var exports = module.exports;
 //Verify that the current session is valid.
 exports.verifySession = function(req, res, next, username) {
   if (req.session.user && req.session.user === username) {
-    next();
+    Users.getUser(req.session.user).then(function(user) {
+      req.user = user;
+      next();
+    }).catch(function(err) {
+      res.sendStatus(500);
+    });
   } else {
     res.sendStatus(401);
   }

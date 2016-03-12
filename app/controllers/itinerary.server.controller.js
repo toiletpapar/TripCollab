@@ -82,40 +82,48 @@ exports.getItineraryList = function(req, res) {
     console.log('Unable to get itineraries for given user');
     res.sendStatus(500);
   });
-}
+};
 
 exports.getItinerary = function(req, res) {
   res.status(200).json({'itinerary': req.itinerary});
-}
+};
 
 exports.editItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
-    var trip = extractTrip(itinerary);
-    Itinerary.editItinerary(req.itinerary, {name: itinerary.name, trip: trip}).then(function(itinerary) {
-      res.status(200).json({'itinerary': itinerary});
+    if (req.itinerary.owner == req.user.id) {
+      var trip = extractTrip(itinerary);
+      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, trip: trip}).then(function(itinerary) {
+        res.status(200).json({'itinerary': itinerary});
+      }).catch(function(err) {
+        console.log(err);
+        console.log('Unable to edit itinerary');
+
+        res.sendStatus(500);
+      });
+    } else {
+      res.sendStatus(401);
+    }
+  } else {
+    res.sendStatus(400);
+  }
+};
+
+exports.deleteItinerary = function(req, res) {
+  if (req.itinerary.owner == req.user.id) {
+    Itinerary.deleteItinerary(req.itinerary).then(function() {
+      res.sendStatus(200);
     }).catch(function(err) {
       console.log(err);
-      console.log('Unable to edit itinerary');
+      console.log('Unable to delete itinerary');
 
       res.sendStatus(500);
     });
   } else {
-    res.sendStatus(400);
+    res.sendStatus(401);
   }
-}
-
-exports.deleteItinerary = function(req, res) {
-  Itinerary.deleteItinerary(req.itinerary).then(function() {
-    res.sendStatus(200);
-  }).catch(function(err) {
-    console.log(err);
-    console.log('Unable to delete itinerary');
-
-    res.sendStatus(500);
-  });
-}
+};
 
 //Retrieve a single itinerary given its id
 exports.retrieveItinerary = function(req, res, next, itineraryID) {
