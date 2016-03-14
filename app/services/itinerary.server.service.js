@@ -11,6 +11,12 @@ exports.createItinerary = function(itineraryInfo, username) {
     itinerary.trip = itineraryInfo.trip;
     itinerary.name = itineraryInfo.name;
     itinerary.published = itineraryInfo.published;
+
+    //lowercase all tags
+    for (var i = 0; i < itineraryInfo.tags.length; i++) {
+      itineraryInfo.tags[i] = itineraryInfo.tags[i].toLowerCase();
+    }
+
     itinerary.tags = itineraryInfo.tags;
 
     var itineraryDoc = new Itinerary(itinerary);
@@ -28,8 +34,6 @@ exports.createItinerary = function(itineraryInfo, username) {
 };
 
 exports.getItineraryList = function(filter) {
-  filter.deleted = false;
-
   return new Promise(function(resolve, reject) {
     Itinerary.find(filter).exec(function(err, itineraries) {
       if (err) {
@@ -57,7 +61,13 @@ exports.editItinerary = function(itinerary, info) {
   itinerary.trip = info.trip;
   itinerary.name = info.name;
   itinerary.published = info.published;
-  itinerary.tags = info.tags;
+
+  //lowercase all tags
+  for (var i = 0; i < info.tags.length; i++) {
+    info.tags[i] = info.tags[i].toLowerCase();
+  }
+
+  info.tags = info.tags;
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err, itinerary) {
       if (err) {

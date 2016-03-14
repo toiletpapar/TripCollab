@@ -59,6 +59,7 @@ exports.createItinerary = function(req, res) {
 //Retrieve a list of itineraries
 exports.getItineraryList = function(req, res) {
   var username = req.query.username;
+  var tag = req.query.tag;
   var pUser;
 
   if (username) {
@@ -68,21 +69,30 @@ exports.getItineraryList = function(req, res) {
   }
 
   pUser.then(function(user) {
+    var filter = {};
+
     if (user === undefined) {
-      //No user given, return all itineraries
-      return Itinerary.getItineraryList({published: true});
+      //No user given, return only published itineraries
+      filter.published = true;
     } else if (user === null) {
       //No user found, return empty itineraries
       return Promise.resolve([]);
+    } else if (req.user.id === user.id) {
+      //if the logged in user is the same as the user queried then return all itineraries (published/unpublished)
+      filter.owner = user.id;
     } else {
-      //Return itineraries filtered by user
-      //if the logged in user is the same as the user queried then return all non-published itineraries
-      if (req.user.id === user.id) {
-        return Itinerary.getItineraryList({owner: user.id, published: false});
-      } else {
-        return Itinerary.getItineraryList({owner: user.id, published: true});
-      }
+      //otherwise just return all published itineraries relating to user
+      filter.owner = user.id;
+      filter.published = true;
     }
+    
+    if (tag) {
+      filter.tags = tag.toLowerCase();
+    }
+
+    filter.deleted = false;
+
+    return Itinerary.getItineraryList(filter);
   }).then(function(itineraries) {
     res.status(200).json({
       'itineraries': itineraries
