@@ -41,6 +41,8 @@ will respond with
       "owner": "56ca3e9f8daa44dc6736d519",
       "_id": "56ca71a7cad2568866633a72",
       "__v": 0,
+      "name": "Toronto 2015",
+      "published": true,
       "trip": [
         {
           "time": "1995-08-09T06:08:20.000Z",
@@ -80,6 +82,8 @@ will respond with
     {
       "owner": "56ca3e9f8daa44dc6736d519",
       "_id": "56ca77f62514de4c5bbe83df",
+      "name": "Toronto 2015",
+      "published": true,
       "__v": 0,
       "trip": [
         {
@@ -120,6 +124,8 @@ will respond with
   ]
 }
 
+Note: only provides published itineraries when passed a username unless that username is that of the logged in user
+
 Create an itinerary:
 POST to /api/itinerary/:user
 :user is the username of the current logged in user
@@ -127,6 +133,7 @@ with the following JSON:
 {
   "itinerary": {
     "name": "Toronto 1995",
+    "published": true,
     trip: [
       {
         day: 1,
@@ -165,6 +172,8 @@ with the following JSON:
   }
 }
 
+Note: if publish boolean is not provided, it defaults to false
+
 Get a specific itinerary:
 GET to /api/itinerary/:user/:itinerary/
 :user is the username of the current logged in user
@@ -175,6 +184,7 @@ will respond with
   "_id": "56ca71a7cad2568866633a72",
   "__v": 0,
   "name": "Toronto 1995",
+  "published": true,
   "trip": [
     {
       "day": 1,
@@ -223,6 +233,7 @@ with the following new itinerary JSON
 {
   "itinerary": {
     "name": "Toronto 1995",
+    "published": true,
     trip: [
       {
         day: 1,
@@ -262,6 +273,7 @@ with the following new itinerary JSON
 }
 
 Note: If no itinerary exists at :itinerary then one is created.
+Note: if publish boolean is not provided, it defaults to false
 
 Delete a specific itinerary:
 DELETE to /api/itinerary/:user/:itinerary

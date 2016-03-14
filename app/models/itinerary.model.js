@@ -39,6 +39,10 @@ var activitySchema = new Schema({
 });
 
 var itinerarySchema = new Schema({
+  published: {
+    type: Boolean,
+    default: false,
+  },
   owner: {
     required: 'Owner of itinerary is required',
     type: Schema.Types.ObjectId,

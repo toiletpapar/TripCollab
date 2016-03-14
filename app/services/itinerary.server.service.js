@@ -10,6 +10,7 @@ exports.createItinerary = function(itineraryInfo, username) {
     itinerary.owner = user.id;
     itinerary.trip = itineraryInfo.trip;
     itinerary.name = itineraryInfo.name;
+    itinerary.published = itineraryInfo.published;
 
     var itineraryDoc = new Itinerary(itinerary);
 
@@ -54,6 +55,7 @@ exports.getItinerary = function(itineraryID) {
 exports.editItinerary = function(itinerary, info) {
   itinerary.trip = info.trip;
   itinerary.name = info.name;
+  itinerary.published = info.published;
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err, itinerary) {
       if (err) {

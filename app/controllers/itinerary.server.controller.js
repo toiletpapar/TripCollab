@@ -37,7 +37,11 @@ exports.createItinerary = function(req, res) {
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     var trip = extractTrip(itinerary);
 
-    Itinerary.createItinerary({name: itinerary.name, trip: trip}, req.session.user).then(function(itinerary) {
+    Itinerary.createItinerary({
+      name: itinerary.name, 
+      published: itinerary.published, 
+      trip: trip
+    }, req.session.user).then(function(itinerary) {
       res.status(201).json({
         "itinerary": itinerary
       });
@@ -65,13 +69,18 @@ exports.getItineraryList = function(req, res) {
   pUser.then(function(user) {
     if (user === undefined) {
       //No user given, return all itineraries
-      return Itinerary.getItineraryList({});
+      return Itinerary.getItineraryList({published: true});
     } else if (user === null) {
       //No user found, return empty itineraries
       return Promise.resolve([]);
     } else {
       //Return itineraries filtered by user
-      return Itinerary.getItineraryList({owner: user.id});
+      //if the logged in user is the same as the user queried then return all non-published itineraries
+      if (req.user.id === user.id) {
+        return Itinerary.getItineraryList({owner: user.id, published: false});
+      } else {
+        return Itinerary.getItineraryList({owner: user.id, published: true});
+      }
     }
   }).then(function(itineraries) {
     res.status(200).json({
@@ -85,6 +94,7 @@ exports.getItineraryList = function(req, res) {
 };
 
 exports.getItinerary = function(req, res) {
+  //todo: don't return an itinerary unless it is published/shared with/owned
   res.status(200).json({'itinerary': req.itinerary});
 };
 
@@ -94,7 +104,7 @@ exports.editItinerary = function(req, res) {
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     if (req.itinerary.owner == req.user.id) {
       var trip = extractTrip(itinerary);
-      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, trip: trip}).then(function(itinerary) {
+      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, published: itinerary.published, trip: trip}).then(function(itinerary) {
         res.status(200).json({'itinerary': itinerary});
       }).catch(function(err) {
         console.log(err);
