@@ -39,7 +39,7 @@ exports.createItinerary = function(req, res) {
 
     Itinerary.createItinerary({
       name: itinerary.name, 
-      published: itinerary.published, 
+      published: itinerary.published || false, 
       trip: trip
     }, req.session.user).then(function(itinerary) {
       res.status(201).json({
@@ -104,7 +104,7 @@ exports.editItinerary = function(req, res) {
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     if (req.itinerary.owner == req.user.id) {
       var trip = extractTrip(itinerary);
-      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, published: itinerary.published, trip: trip}).then(function(itinerary) {
+      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, published: itinerary.published || false, trip: trip}).then(function(itinerary) {
         res.status(200).json({'itinerary': itinerary});
       }).catch(function(err) {
         console.log(err);
