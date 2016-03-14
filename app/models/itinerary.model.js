@@ -58,6 +58,10 @@ var itinerarySchema = new Schema({
   deleted: {
     type: Boolean,
     default: false
+  },
+  tags: {
+    type: [String],
+    default: []
   }
 });
 

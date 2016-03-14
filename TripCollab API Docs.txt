@@ -43,6 +43,10 @@ will respond with
       "__v": 0,
       "name": "Toronto 2015",
       "published": true,
+      "tags" [
+        "Toronto",
+        "Fun"
+      ],
       "trip": [
         {
           "time": "1995-08-09T06:08:20.000Z",
@@ -85,6 +89,10 @@ will respond with
       "name": "Toronto 2015",
       "published": true,
       "__v": 0,
+      "tags" [
+        "Toronto",
+        "Fun"
+      ],
       "trip": [
         {
           "time": "1995-08-09T06:08:20.000Z",
@@ -134,6 +142,10 @@ with the following JSON:
   "itinerary": {
     "name": "Toronto 1995",
     "published": true,
+    "tags" [
+      "Toronto",
+      "Fun"
+    ],
     trip: [
       {
         day: 1,
@@ -173,6 +185,7 @@ with the following JSON:
 }
 
 Note: if publish boolean is not provided, it defaults to false
+Note: if tags array is not provided, it defaults to []
 
 Get a specific itinerary:
 GET to /api/itinerary/:user/:itinerary/
@@ -185,6 +198,10 @@ will respond with
   "__v": 0,
   "name": "Toronto 1995",
   "published": true,
+  "tags" [
+    "Toronto",
+    "Fun"
+  ],
   "trip": [
     {
       "day": 1,
@@ -234,6 +251,10 @@ with the following new itinerary JSON
   "itinerary": {
     "name": "Toronto 1995",
     "published": true,
+    "tags" [
+      "Toronto",
+      "Fun"
+    ],
     trip: [
       {
         day: 1,
@@ -274,6 +295,7 @@ with the following new itinerary JSON
 
 Note: If no itinerary exists at :itinerary then one is created.
 Note: if publish boolean is not provided, it defaults to false
+Note: if tags array is not provided, it defaults to []
 
 Delete a specific itinerary:
 DELETE to /api/itinerary/:user/:itinerary

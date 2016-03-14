@@ -11,6 +11,7 @@ exports.createItinerary = function(itineraryInfo, username) {
     itinerary.trip = itineraryInfo.trip;
     itinerary.name = itineraryInfo.name;
     itinerary.published = itineraryInfo.published;
+    itinerary.tags = itineraryInfo.tags;
 
     var itineraryDoc = new Itinerary(itinerary);
 
@@ -56,6 +57,7 @@ exports.editItinerary = function(itinerary, info) {
   itinerary.trip = info.trip;
   itinerary.name = info.name;
   itinerary.published = info.published;
+  itinerary.tags = info.tags;
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err, itinerary) {
       if (err) {
