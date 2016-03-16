@@ -67,7 +67,7 @@ exports.editItinerary = function(itinerary, info) {
     info.tags[i] = info.tags[i].toLowerCase();
   }
 
-  info.tags = info.tags;
+  itinerary.tags = info.tags;
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err, itinerary) {
       if (err) {

@@ -48,6 +48,11 @@ var itinerarySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  sharedWith: {
+    type: [Schema.Types.ObjectId],
+    ref: 'User',
+    default: []
+  },
   name: {
     required: 'Name of itinerary is required',
     type: String
