@@ -30,19 +30,40 @@ function extractTrip(itinerary) {
   return trip;
 }
 
+//Converts an array of usernames to an array of user ids
+function extractIDs(usernames) {
+  var promiseIDs = [];
+  for (var i = 0; i < usernames.length; i++) {
+    promiseIDs.push(Users.getUser(usernames[i]));
+  }
+  return Promise.all(promiseIDs);
+}
+
 //Create an itinerary
 exports.createItinerary = function(req, res) {
   var itinerary = req.body.itinerary;
 
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     var trip = extractTrip(itinerary);
+    var pSharedWithIDs;
 
-    Itinerary.createItinerary({
-      name: itinerary.name, 
-      published: itinerary.published || false, 
-      trip: trip,
-      tags: itinerary.tags || []
-    }, req.session.user).then(function(itinerary) {
+    if ('length' in itinerary.sharedWith) {
+      pSharedWithIDs = extractIDs(itinerary.sharedWith);
+    } else {
+      pSharedWithIDs = Promise.resolve([]);
+    }
+
+    pSharedWithIDs.then(function(sharedWithIDs) {
+      var itineraryInfo = {
+        name: itinerary.name, 
+        published: itinerary.published || false, 
+        trip: trip,
+        tags: itinerary.tags && 'length' in itinerary.tags ? itinerary.tags : [],
+        sharedWith:  sharedWithIDs
+      };
+
+      return Itinerary.createItinerary(itineraryInfo, req.session.user);
+    }).then(function(itinerary) {
       res.status(201).json({
         "itinerary": itinerary
       });
@@ -115,7 +136,25 @@ exports.editItinerary = function(req, res) {
   if (itinerary && itinerary.name && itinerary.trip && 'length' in itinerary.trip) {
     if (req.itinerary.owner == req.user.id) {
       var trip = extractTrip(itinerary);
-      Itinerary.editItinerary(req.itinerary, {name: itinerary.name, published: itinerary.published || false, tags: itinerary.tags || [], trip: trip}).then(function(itinerary) {
+      var pSharedWithIDs;
+
+      if ('length' in itinerary.sharedWith) {
+        pSharedWithIDs = extractIDs(itinerary.sharedWith);
+      } else {
+        pSharedWithIDs = Promise.resolve([]);
+      }
+
+      pSharedWithIDs.then(function(sharedWithIDs) {
+        var itineraryInfo = {
+          name: itinerary.name, 
+          published: itinerary.published || false, 
+          tags: itinerary.tags && 'length' in itinerary.tags ? itinerary.tags : [],
+          trip: trip,
+          sharedWith: sharedWithIDs
+        };
+
+        return Itinerary.editItinerary(req.itinerary, itineraryInfo);
+      }).then(function(itinerary) {
         res.status(200).json({'itinerary': itinerary});
       }).catch(function(err) {
         console.log(err);

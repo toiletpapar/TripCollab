@@ -43,9 +43,12 @@ will respond with
       "__v": 0,
       "name": "Toronto 2015",
       "published": true,
-      "tags" [
+      "tags": [
         "Toronto",
         "Fun"
+      ],
+      "sharedWith": [
+        "56ca123456789"
       ],
       "trip": [
         {
@@ -89,9 +92,12 @@ will respond with
       "name": "Toronto 2015",
       "published": true,
       "__v": 0,
-      "tags" [
+      "tags": [
         "Toronto",
         "Fun"
+      ],
+      "sharedWith": [
+        "56ca123456789"
       ],
       "trip": [
         {
@@ -142,9 +148,13 @@ with the following JSON:
   "itinerary": {
     "name": "Toronto 1995",
     "published": true,
-    "tags" [
+    "tags": [
       "Toronto",
       "Fun"
+    ],
+    "sharedWith": [
+      "tpoon",
+      "alimomin@tripcollab.com"
     ],
     trip: [
       {
@@ -198,9 +208,13 @@ will respond with
   "__v": 0,
   "name": "Toronto 1995",
   "published": true,
-  "tags" [
+  "tags": [
     "Toronto",
     "Fun"
+  ],
+  "sharedWith": [
+    "tpoon",
+    "alimomin@tripcollab.com"
   ],
   "trip": [
     {
@@ -251,9 +265,13 @@ with the following new itinerary JSON
   "itinerary": {
     "name": "Toronto 1995",
     "published": true,
-    "tags" [
+    "tags": [
       "Toronto",
       "Fun"
+    ],
+    "sharedWith": [
+      "tpoon",
+      "alimomin@tripcollab.com"
     ],
     trip: [
       {
@@ -296,6 +314,7 @@ with the following new itinerary JSON
 Note: If no itinerary exists at :itinerary then one is created.
 Note: if publish boolean is not provided, it defaults to false
 Note: if tags array is not provided, it defaults to []
+Note: if sharedWith array is not provided, it defaults to []
 
 Delete a specific itinerary:
 DELETE to /api/itinerary/:user/:itinerary

@@ -18,6 +18,7 @@ exports.createItinerary = function(itineraryInfo, username) {
     }
 
     itinerary.tags = itineraryInfo.tags;
+    itinerary.sharedWith = itineraryInfo.sharedWith;
 
     var itineraryDoc = new Itinerary(itinerary);
 
@@ -68,6 +69,8 @@ exports.editItinerary = function(itinerary, info) {
   }
 
   itinerary.tags = info.tags;
+  itinerary.sharedWith = info.sharedWith;
+  
   return new Promise(function(resolve, reject) {
     itinerary.save(function(err, itinerary) {
       if (err) {
