@@ -126,8 +126,19 @@ exports.getItineraryList = function(req, res) {
 };
 
 exports.getItinerary = function(req, res) {
-  //todo: don't return an itinerary unless it is published/shared with/owned
-  res.status(200).json({'itinerary': req.itinerary});
+  var sharedWith = false;
+
+  for (var i = 0; i < req.itinerary.sharedWith.length; i++) {
+    if (req.user.id == req.itineary.sharedWith[i]) {
+      sharedWith = true;
+    }
+  }
+
+  if (req.itinerary.published || req.user.id == req.itinerary.owner || sharedWith) {
+    res.status(200).json({'itinerary': req.itinerary});
+  } else {
+    res.sendStatus(401);
+  }
 };
 
 exports.editItinerary = function(req, res) {
