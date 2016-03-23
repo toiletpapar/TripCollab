@@ -91,6 +91,8 @@ exports.getItineraryList = function(req, res) {
 
   pUser.then(function(user) {
     var filter = {};
+    var owner;
+    var sharedWith;
 
     if (user === undefined) {
       //No user given, return only published itineraries
@@ -99,11 +101,12 @@ exports.getItineraryList = function(req, res) {
       //No user found, return empty itineraries
       return Promise.resolve([]);
     } else if (req.user.id === user.id) {
-      //if the logged in user is the same as the user queried then return all itineraries (published/unpublished)
-      filter.owner = user.id;
+      //if the logged in user is the same as the user queried then return all itineraries (published/unpublished/sharedWith)
+      owner = user.id;
+      sharedWith = user.id;
     } else {
       //otherwise just return all published itineraries relating to user
-      filter.owner = user.id;
+      owner = user.id;
       filter.published = true;
     }
     
@@ -113,7 +116,7 @@ exports.getItineraryList = function(req, res) {
 
     filter.deleted = false;
 
-    return Itinerary.getItineraryList(filter);
+    return Itinerary.getItineraryList(filter, owner, sharedWith);
   }).then(function(itineraries) {
     res.status(200).json({
       'itineraries': itineraries
@@ -129,7 +132,7 @@ exports.getItinerary = function(req, res) {
   var sharedWith = false;
 
   for (var i = 0; i < req.itinerary.sharedWith.length; i++) {
-    if (req.user.id == req.itineary.sharedWith[i]) {
+    if (req.user.id == req.itinerary.sharedWith[i]) {
       sharedWith = true;
     }
   }

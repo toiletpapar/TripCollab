@@ -34,9 +34,15 @@ exports.createItinerary = function(itineraryInfo, username) {
   });
 };
 
-exports.getItineraryList = function(filter) {
+exports.getItineraryList = function(filter, owner, sharedWith) {
   return new Promise(function(resolve, reject) {
-    Itinerary.find(filter).exec(function(err, itineraries) {
+    var itineraryQuery = Itinerary.find(filter);
+
+    if (owner && sharedWith) {
+      itineraryQuery = itineraryQuery.or([{owner: owner}, {sharedWith: sharedWith}]);
+    }
+
+    itineraryQuery.exec(function(err, itineraries) {
       if (err) {
         reject(err);
       } else {
