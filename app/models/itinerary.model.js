@@ -16,10 +16,6 @@ var locationSchema = new Schema({
   address: {
     type: String,
     required: "Address is required for location"
-  },
-  type: {
-    type: String,
-    required: "Type is required for location"
   }
 });
 

@@ -15,7 +15,8 @@
     "lodash": "^4.5.0",
     "mongodb": "^2.0.48",
     "mongoose": "^4.2.9",
-    "promise": "^7.0.4"
+    "promise": "^7.0.4",
+    "socket.io": "^1.4.5"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
