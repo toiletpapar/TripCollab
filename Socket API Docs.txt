@@ -1,0 +1,18 @@
+Namespace:
+/edit
+
+Client:
+join itinerary (needs: itineraryID)
+-joins room identified by itinerary ID
+leave itinerary (needs: itineraryID)
+-leaves room identified by itinerary ID
+add activity (needs: activity, itineraryID)
+-Takes the provided activity JSON and adds it to the itinerary identified by the provided itinerary ID
+delete activity (needs: activityID, itineraryID)
+-Removes the provided activity ID from the itinerary identified by the provided itinerary ID
+
+Server:
+add activity (returns the activity JSON that was added)
+add activity err (returns the error that occurred when add activity was unable to complete the request)
+delete activity (returns the activity ID that was deleted)
+delete activity err (returns the error that occurred when delete activity was unable to complete the request)

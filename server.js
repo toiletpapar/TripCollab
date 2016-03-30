@@ -9,6 +9,9 @@ var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var path = require('path');
+var socket_io = require('socket.io');
+
+var Itinerary = require(path.resolve('app/services/itinerary.server.service.js'));
 
 var secret = 's3rv3r secre7'; //TODO: do something about this 'secret' :)
 var app = express();
@@ -80,4 +83,83 @@ var server = app.listen(PORT, IP, function() {
   var port = server.address().port;
 
   console.log('TripCollab started at port %s', port);
+});
+
+//Sockets
+//TODO:
+//Authenticate sockets and sessions?
+//Race conditions?
+//Data verification?
+
+var io = socket_io(server);
+
+//Edit Namespace
+io.of('/edit').on('connection', function(socket) {
+  //Join Itinerary Room
+  socket.on('join itinerary', function(data) {
+    var itineraryID = data.itineraryID;
+
+    socket.join(itineraryID);
+  });
+
+  //Leave Itinerary Room
+  socket.on('leave itinerary', function(data) {
+    var itineraryID = data.itineraryID;
+
+    socket.leave(itineraryID);
+  });
+
+  //Add activity to itinerary
+  socket.on('add activity', function(data) {
+    var itineraryID = data.itineraryID;
+    var activity = data.activity;
+
+    Itinerary.getItinerary(itineraryID).then(function(itinerary) {
+      var trip = itinerary.trip;
+      trip.push(activity);
+
+      var itineraryInfo = {
+        name: itinerary.name, 
+        published: itinerary.published, 
+        tags: itinerary.tags,
+        trip: trip,
+        sharedWith: itinerary.sharedWith
+      };
+
+      return Itinerary.editItinerary(itinerary, itineraryInfo);
+    }).then(function(itinerary) {
+      socket.to(itineraryID).emit('add activity', data);
+    }).catch(function(err) {
+      socket.to(socket.id).emit('add activity err', err);
+    });
+  });
+
+  //Delete activity to itinerary
+  socket.on('delete activity', function(data) {
+    var itineraryID = data.itineraryID;
+    var activityID = data.activityID;
+
+    Itinerary.getItinerary(itineraryID).then(function(itinerary) {
+      var trip = itinerary.trip;
+      var indexToRemove = trip.findIndex(function(element, index, array) {
+        return element.id == activityID;
+      });
+      trip.splice(indexToRemove, 1);
+
+      var itineraryInfo = {
+        name: itinerary.name, 
+        published: itinerary.published, 
+        tags: itinerary.tags,
+        trip: trip,
+        sharedWith: itinerary.sharedWith
+      };
+
+      return Itinerary.editItinerary(itinerary, itineraryInfo);
+    }).catch(function(err) {
+      socket.to(socket.id).emit('delete activity err', err);
+    });
+
+    socket.to(itineraryID).emit('delete activity', data);
+  });
+
 });
