@@ -130,6 +130,7 @@ io.of('/edit').on('connection', function(socket) {
     }).then(function(itinerary) {
       socket.to(itineraryID).emit('add activity', data);
     }).catch(function(err) {
+      console.log(err);
       socket.to(socket.id).emit('add activity err', err);
     });
   });
@@ -146,6 +147,8 @@ io.of('/edit').on('connection', function(socket) {
       var indexToRemove = trip.findIndex(function(element, index, array) {
         return element.location.name == locationName;
       });
+      console.log("The index to remove");
+      console.log(indexToRemove);
       trip.splice(indexToRemove, 1);
 
       var itineraryInfo = {
@@ -158,8 +161,10 @@ io.of('/edit').on('connection', function(socket) {
 
       return Itinerary.editItinerary(itinerary, itineraryInfo);
     }).then(function(itinerary) {
+      console.log('activity deleted');
       socket.to(itineraryID).emit('delete activity', data);
     }).catch(function(err) {
+      console.log(err);
       socket.to(socket.id).emit('delete activity err', err);
     });
   });
