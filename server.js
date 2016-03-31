@@ -155,11 +155,11 @@ io.of('/edit').on('connection', function(socket) {
       };
 
       return Itinerary.editItinerary(itinerary, itineraryInfo);
+    }).then(function(itinerary) {
+      socket.to(itineraryID).emit('delete activity', data);
     }).catch(function(err) {
       socket.to(socket.id).emit('delete activity err', err);
     });
-
-    socket.to(itineraryID).emit('delete activity', data);
   });
 
 });
