@@ -144,12 +144,17 @@ io.of('/edit').on('connection', function(socket) {
       var trip = itinerary.trip;
       //What if two activities have the same location?
       //We only use location name to uniquely identify activities for the purposes of the demo
-      var indexToRemove = trip.findIndex(function(element, index, array) {
-        return element.location.name == locationName;
-      });
-      console.log("The index to remove");
-      console.log(indexToRemove);
-      trip.splice(indexToRemove, 1);
+      var indexToRemove;
+
+      for (var i = 0; i < trip.length; i++) {
+        if (trip[i].location.name == locationName) {
+          indexToRemove = i;
+        }
+      }
+
+      if (indexToRemove) {
+        trip.splice(indexToRemove, 1);
+      }
 
       var itineraryInfo = {
         name: itinerary.name, 
@@ -161,7 +166,6 @@ io.of('/edit').on('connection', function(socket) {
 
       return Itinerary.editItinerary(itinerary, itineraryInfo);
     }).then(function(itinerary) {
-      console.log('activity deleted');
       socket.to(itineraryID).emit('delete activity', data);
     }).catch(function(err) {
       console.log(err);
