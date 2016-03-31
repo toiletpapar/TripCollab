@@ -137,12 +137,14 @@ io.of('/edit').on('connection', function(socket) {
   //Delete activity to itinerary
   socket.on('delete activity', function(data) {
     var itineraryID = data.itineraryID;
-    var activityID = data.activityID;
+    var locationName = data.locationName;
 
     Itinerary.getItinerary(itineraryID).then(function(itinerary) {
       var trip = itinerary.trip;
+      //What if two activities have the same location?
+      //We only use location name to uniquely identify activities for the purposes of the demo
       var indexToRemove = trip.findIndex(function(element, index, array) {
-        return element.id == activityID;
+        return element.location.name == locationName;
       });
       trip.splice(indexToRemove, 1);
 

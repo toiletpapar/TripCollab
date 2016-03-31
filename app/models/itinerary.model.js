@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var locationSchema = new Schema({
   name: {
     type: String
+    //required: "Name is required for location" //For the purposes of the demo and backwards compatibility we do not require name
   },
   long: {
     type: Number,
